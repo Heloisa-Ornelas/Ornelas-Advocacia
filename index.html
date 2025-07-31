@@ -253,6 +253,61 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
+
+                <!-- Certidões -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
+                    <div class="h-48 bg-gray-800 flex items-center justify-center">
+                        <i class="fas fa-file-alt text-5xl text-gold-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Solicite sua Certidão</h3>
+                        <p class="text-gray-600 mb-4">Cada certidão custa R$150,00</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-1">Cidade</label>
+                                <select id="certidao-cidade" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
+                                    <option value="">Selecione uma cidade</option>
+                                    <option value="Curitiba">Curitiba</option>
+                                    <option value="Londrina">Londrina</option>
+                                    <option value="Maringá">Maringá</option>
+                                    <option value="Ponta Grossa">Ponta Grossa</option>
+                                    <option value="Cascavel">Cascavel</option>
+                                    <option value="São José dos Pinhais">São José dos Pinhais</option>
+                                    <option value="Foz do Iguaçu">Foz do Iguaçu</option>
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Guarapuava">Guarapuava</option>
+                                    <option value="Paranaguá">Paranaguá</option>
+                                    <option value="São Mateus do Sul">São Mateus do Sul</option>
+                                    <!-- Add more PR cities as needed -->
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-1">Tipo de Certidão</label>
+                                <select id="certidao-tipo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
+                                    <option value="">Selecione o tipo</option>
+                                    <option value="Civil">Civil</option>
+                                    <option value="Criminal">Criminal</option>
+                                    <option value="Falência">Falência</option>
+                                    <option value="Família">Família</option>
+                                    <option value="Nascimento">Nascimento</option>
+                                    <option value="Óbito">Óbito</option>
+                                    <option value="Casamento">Casamento</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-1">Informe seu contato de WhatsApp</label>
+                                <input type="tel" id="certidao-contato" placeholder="(xx) xxxxx-xxxx" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
+                            </div>
+                            
+                            <button id="enviar-certidao" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full">
+                                Enviar Mensagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -266,11 +321,7 @@
                 <div class="lg:w-1/2">
                     <h3 class="text-2xl font-semibold mb-6">Entre em contato conosco</h3>
                     
-                    <form id="contact-form" action="https://formsubmit.co/ornelasadvogada@outlook.com.br" method="POST" class="space-y-6">
-                        <input type="hidden" name="_subject" value="Novo contato do site Ornelas Advocacia">
-                        <input type="hidden" name="_next" value="https://yourwebsite.com/thanks.html">
-                        <input type="hidden" name="_captcha" value="false">
-                        
+                    <form id="contact-form" class="space-y-6">
                         <div>
                             <label for="name" class="block text-gray-700 mb-2">Nome completo</label>
                             <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required>
@@ -291,9 +342,9 @@
                             <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required></textarea>
                         </div>
                         
-                        <button type="submit" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full">
+                        <a href="mailto:ornelasadvogada@outlook.com.br" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full inline-block text-center">
                             Enviar Mensagem
-                        </button>
+                        </a>
                     </form>
                 </div>
                 
@@ -315,7 +366,7 @@
                                 <div>
                                     <h4 class="font-semibold">Telefone</h4>
                                     <p class="text-gray-700">(41) 99978-4622</p>
-                                    <a href="https://wa.me/5541999784622" target="_blank" class="text-gold-500 hover:underline inline-block mt-2">
+                                    <a href="https://wa.me/5541999784622" class="text-gold-500 hover:underline inline-block mt-2">
                                         <i class="fab fa-whatsapp mr-2"></i> Envie uma mensagem pelo WhatsApp
                                     </a>
                                 </div>
@@ -473,6 +524,54 @@
             // For this example, we'll just show a success message
             alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
             this.reset();
+        });
+
+        // Certidão form submission
+        document.getElementById('enviar-certidao').addEventListener('click', function() {
+            const cidade = document.getElementById('certidao-cidade').value;
+            const tipo = document.getElementById('certidao-tipo').value;
+            const contato = document.getElementById('certidao-contato').value;
+            
+            if (!cidade || !tipo || !contato) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+            
+            // Validate phone number format
+            const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+            if (!phoneRegex.test(contato)) {
+                alert('Por favor, insira um número de WhatsApp válido no formato (xx) xxxxx-xxxx');
+                return;
+            }
+            
+            // Construct email body
+            const subject = `Solicitação de Certidão - ${tipo}`;
+            const body = `Novo pedido de certidão:\n\nCidade: ${cidade}\nTipo: ${tipo}\nContato: ${contato}\n\nValor: R$150,00`;
+            
+            // Open default email client
+            window.location.href = `mailto:ornelasadvogada@outlook.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Show success message
+            alert('Solicitação enviada! Entraremos em contato em breve pelo WhatsApp informado.');
+            
+            // Reset form
+            document.getElementById('certidao-cidade').value = '';
+            document.getElementById('certidao-tipo').value = '';
+            document.getElementById('certidao-contato').value = '';
+        });
+
+        // Phone number formatting
+        document.getElementById('certidao-contato').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            
+            if (value.length > 0) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+            }
+            if (value.length > 10) {
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            }
+            
+            this.value = value.substring(0, 15);
         });
 
         // Update active nav link on scroll
