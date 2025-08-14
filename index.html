@@ -156,7 +156,7 @@
                 
                 <div class="md:w-1/2">
                     <h3 class="text-2xl font-semibold mb-4">Heloisa Ornelas</h3>
-                    <p class="text-gray-700 mb-4">Advogada fundadora da Ornelas Advocacia, formada pela Universidade Federal do Paraná, com especialização em Direito Civil e Processo Civil.</p>
+                    <p class="text-gray-700 mb-4">Advogada fundadora da Ornelas Advocacia, formada pela Universidade Curitiba, com especialização em Contratos, Licitações, Direito Constitucional e Processo Civil. Entre outros cursos de atualização.</p>
                     <p class="text-gray-700 mb-4">Com mais de 10 anos de experiência no mercado jurídico, Heloisa dedica-se a oferecer soluções jurídicas personalizadas, com ética, transparência e comprometimento com os interesses de seus clientes.</p>
                     <p class="text-gray-700 mb-6">Nosso escritório tem como missão democratizar o acesso à justiça, oferecendo serviços jurídicos de excelência com atendimento humanizado e focado nas necessidades individuais de cada cliente.</p>
                     
@@ -261,7 +261,7 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-3">Solicite sua Certidão</h3>
-                        <p class="text-gray-600 mb-4">Cada certidão custa R$150,00</p>
+                        <p class="text-gray-600 mb-4">Cada certidão custa R$150,00 + despesas postais</p>
                         
                         <div class="space-y-4">
                             <div>
@@ -342,9 +342,9 @@
                             <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required></textarea>
                         </div>
                         
-                        <a href="mailto:ornelasadvogada@outlook.com.br" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full inline-block text-center">
+                        <button type="button" onclick="sendWhatsAppMessage()" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full">
                             Enviar Mensagem
-                        </a>
+                        </button>
                     </form>
                 </div>
                 
@@ -366,7 +366,7 @@
                                 <div>
                                     <h4 class="font-semibold">Telefone</h4>
                                     <p class="text-gray-700">(41) 99978-4622</p>
-                                    <a href="https://wa.me/5541999784622" class="text-gold-500 hover:underline inline-block mt-2">
+                                    <a href="https://wa.me/554199978462" class="text-gold-500 hover:underline inline-block mt-2">
                                         <i class="fab fa-whatsapp mr-2"></i> Envie uma mensagem pelo WhatsApp
                                     </a>
                                 </div>
@@ -375,10 +375,10 @@
                             <div class="flex items-start">
                                 <i class="fas fa-phone-alt text-red-500 mt-1 mr-4"></i>
                                 <div>
-                                    <h4 class="font-semibold">Emergência</h4>
-                                    <p class="text-gray-700">(41) 9676-9963</p>
+                                    <h4 class="font-semibold text-red-500">Telefone de Emergência</h4>
+                                    <p class="text-red-500">(41) 9676-9963</p>
                                     <a href="https://wa.me/554196769963" target="_blank" class="text-red-500 hover:underline inline-block mt-2">
-                                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp de Emergência
+                                        <i class="fab fa-whatsapp mr-2"></i> Envie uma mensagem pelo WhatsApp
                                     </a>
                                 </div>
                             </div>
@@ -465,8 +465,9 @@
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone-alt text-red-500 mr-3"></i>
-                            <a href="https://wa.me/554196769963" target="_blank" class="hover:underline">
-                                <span>(41) 9676-9963 (Emergência)</span>
+                            <span class="text-red-500">(41) 9676-9963</span>
+                            <a href="https://wa.me/554196769963" class="text-red-500 hover:underline ml-2">
+                                <i class="fab fa-whatsapp"></i>
                             </a>
                         </li>
                         <li class="flex items-center">
@@ -533,16 +534,6 @@
             }
         });
 
-        // Form submission
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Here you would typically send the form data to a server
-            // For this example, we'll just show a success message
-            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-            this.reset();
-        });
-
         // Certidão form submission
         document.getElementById('enviar-certidao').addEventListener('click', function() {
             const cidade = document.getElementById('certidao-cidade').value;
@@ -565,11 +556,14 @@
             const subject = `Solicitação de Certidão - ${tipo}`;
             const body = `Novo pedido de certidão:\n\nCidade: ${cidade}\nTipo: ${tipo}\nContato: ${contato}\n\nValor: R$150,00`;
             
-            // Open default email client
-            window.location.href = `mailto:ornelasadvogada@outlook.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            // Format phone number (remove non-digits)
+            const formattedPhone = contato.replace(/\D/g, '');
             
-            // Show success message
-            alert('Solicitação enviada! Entraremos em contato em breve pelo WhatsApp informado.');
+            // Construct WhatsApp message
+            const whatsappMessage = `Olá, gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\n\nValor: R$150,00 + despesas postais`;
+            
+            // Open WhatsApp with pre-filled message
+            window.open(`https://wa.me/55${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
             
             // Reset form
             document.getElementById('certidao-cidade').value = '';
