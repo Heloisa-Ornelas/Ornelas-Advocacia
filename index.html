@@ -30,7 +30,6 @@
             scroll-behavior: smooth;
         }
         
-        
         .nav-link {
             position: relative;
         }
@@ -91,6 +90,68 @@
             right: 20px;
             display: none;
             z-index: 99;
+        }
+        
+        /* Estilos para o contador de visitas */
+        .visitor-counter {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .visitor-counter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #D4AF37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            margin: 10px 0;
+        }
+        
+        .counter-label {
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        .counter-icon {
+            font-size: 2.5rem;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        
+        .counter-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: #D4AF37;
+            font-size: 1.2rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -242,69 +303,23 @@
                     </div>
                 </div>
                 
-                <!-- Contratos -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
-                    <div class="h-48 bg-gray-800 flex items-center justify-center">
-                        <i class="fas fa-file-contract text-5xl text-gold-500"></i>
+                <!-- Contador de Visitantes -->
+                <div class="visitor-counter">
+                    <div class="counter-icon">
+                        <i class="fas fa-eye"></i>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3">Contratos</h3>
-                        <p class="text-gray-600 mb-4">Elaboração, análise e revisão de contratos em geral, incluindo contratos empresariais, imobiliários, de prestação de serviços e outros.</p>
-                        <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
-                    </div>
-                </div>
-
-                <!-- Certidões -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
-                    <div class="h-48 bg-gray-800 flex items-center justify-center">
-                        <i class="fas fa-file-alt text-5xl text-gold-500"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3">Solicite sua Certidão</h3>
-                        <p class="text-gray-600 mb-4">Cada certidão custa R$150,00 + despesas postais</p>
-                        
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-gray-700 mb-1">Cidade</label>
-                                <select id="certidao-cidade" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
-                                    <option value="">Selecione uma cidade</option>
-                                    <option value="Curitiba">Curitiba</option>
-                                    <option value="Londrina">Londrina</option>
-                                    <option value="Maringá">Maringá</option>
-                                    <option value="Ponta Grossa">Ponta Grossa</option>
-                                    <option value="Cascavel">Cascavel</option>
-                                    <option value="São José dos Pinhais">São José dos Pinhais</option>
-                                    <option value="Foz do Iguaçu">Foz do Iguaçu</option>
-                                    <option value="Colombo">Colombo</option>
-                                    <option value="Guarapuava">Guarapuava</option>
-                                    <option value="Paranaguá">Paranaguá</option>
-                                    <option value="São Mateus do Sul">São Mateus do Sul</option>
-                                    <!-- Add more PR cities as needed -->
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-gray-700 mb-1">Tipo de Certidão</label>
-                                <select id="certidao-tipo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
-                                    <option value="">Selecione o tipo</option>
-                                    <option value="Civil">Civil</option>
-                                    <option value="Criminal">Criminal</option>
-                                    <option value="Falência">Falência</option>
-                                    <option value="Família">Família</option>
-                                    <option value="Nascimento">Nascimento</option>
-                                    <option value="Óbito">Óbito</option>
-                                    <option value="Casamento">Casamento</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-gray-700 mb-1">Informe seu contato de WhatsApp</label>
-                                <input type="tel" id="certidao-contato" placeholder="(xx) xxxxx-xxxx" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
-                            </div>
-                            
-                            <button id="enviar-certidao" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full">
-                                Enviar Mensagem
-                            </button>
+                    <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
+                    <div class="counter-number" id="visitor-count">0</div>
+                    <p class="counter-label">Visualizações da nossa página</p>
+                    
+                    <div class="counter-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="today-count">0</div>
+                            <div class="stat-label">Hoje</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="month-count">0</div>
+                            <div class="stat-label">Este Mês</div>
                         </div>
                     </div>
                 </div>
@@ -608,6 +623,116 @@
                 }
             });
         });
+
+        // Contador de Visitantes - Contagem TOTAL de acessos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para formatar números com separadores de milhar
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+            
+            // Função para contar TODOS os acessos (incluindo recarregamentos)
+            function countAllVisits() {
+                // Obter dados atuais ou inicializar
+                let visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
+                    total: 0,
+                    today: 0,
+                    month: 0,
+                    lastVisitDate: null,
+                    currentMonth: null
+                };
+                
+                const now = new Date();
+                const today = now.toDateString();
+                const currentMonth = now.getMonth() + '-' + now.getFullYear();
+                
+                // SEMPRE aumentar o contador total (não verifica se é nova visita)
+                visitorData.total += 1;
+                
+                // Verificar se é o mesmo dia
+                if (visitorData.lastVisitDate === today) {
+                    visitorData.today += 1;
+                } else {
+                    // Novo dia - reiniciar contador do dia
+                    visitorData.today = 1;
+                    visitorData.lastVisitDate = today;
+                }
+                
+                // Verificar se é o mesmo mês
+                if (visitorData.currentMonth === currentMonth) {
+                    visitorData.month += 1;
+                } else {
+                    // Novo mês - reiniciar contador do mês
+                    visitorData.month = 1;
+                    visitorData.currentMonth = currentMonth;
+                }
+                
+                // Salvar dados atualizados
+                localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
+                
+                return visitorData;
+            }
+            
+            // Atualizar contadores na página
+            function updateVisitorCounters() {
+                const visitorData = countAllVisits();
+                
+                // Animar os números
+                animateCounter('visitor-count', visitorData.total);
+                animateCounter('today-count', visitorData.today);
+                animateCounter('month-count', visitorData.month);
+            }
+            
+            // Função para animar contadores
+            function animateCounter(elementId, targetValue) {
+                const element = document.getElementById(elementId);
+                const currentValue = parseInt(element.textContent.replace(/\./g, '')) || 0;
+                
+                // Se for a primeira vez, mostrar direto
+                if (currentValue === 0) {
+                    element.textContent = formatNumber(targetValue);
+                    return;
+                }
+                
+                const duration = 1000;
+                const steps = 30;
+                const stepValue = (targetValue - currentValue) / steps;
+                const stepTime = duration / steps;
+                
+                let currentStep = 0;
+                
+                const timer = setInterval(function() {
+                    currentStep++;
+                    const newValue = Math.floor(currentValue + (stepValue * currentStep));
+                    
+                    if (currentStep >= steps) {
+                        element.textContent = formatNumber(targetValue);
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = formatNumber(newValue);
+                    }
+                }, stepTime);
+            }
+            
+            // Inicializar contadores
+            updateVisitorCounters();
+        });
+
+        // WhatsApp message function
+        function sendWhatsAppMessage() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            if (!name || !email || !phone || !message) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+            
+            const whatsappMessage = `Olá, sou ${name}!\nE-mail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`;
+            window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+        }
     </script>
 </body>
 </html>
