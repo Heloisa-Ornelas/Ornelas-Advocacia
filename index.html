@@ -358,7 +358,7 @@
                     </div>
                 </div>
                 
-                <!-- Contador de Visitantes -->
+                <!-- Contador de Visitantes COM COUNTAPI -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
                         <i class="fas fa-eye"></i>
@@ -377,6 +377,7 @@
                             <div class="stat-label">Este Mês</div>
                         </div>
                     </div>
+                    <p class="text-xs text-gray-400 mt-4">Contador global em tempo real</p>
                 </div>
             </div>
         </div>
@@ -565,101 +566,136 @@
     </a>
 
     <script>
-        // Contador de Visitantes FUNCIONAL - corrigido
+        // =============================================
+        // CONTADOR GLOBAL COM COUNTAPI (FÁCIL!)
+        // =============================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Iniciando contador de visitas...');
-            
             // Função para formatar números
             function formatNumber(num) {
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
             
-            // Função principal do contador
-            function updateVisitorCounter() {
-                console.log('Atualizando contador...');
-                
-                // Obter dados existentes ou criar novos
-                let visitorData;
+            // Usar CountAPI para contador GLOBAL
+            async function useCountAPI() {
                 try {
-                    visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
-                        total: 0,
-                        today: 0,
-                        month: 0,
-                        lastVisitDate: null,
-                        currentMonth: null
-                    };
-                } catch (e) {
-                    console.log('Erro ao ler dados, criando novos...');
-                    visitorData = {
-                        total: 0,
-                        today: 0,
-                        month: 0,
-                        lastVisitDate: null,
-                        currentMonth: null
-                    };
+                    console.log('Usando CountAPI...');
+                    
+                    // Nome único para seu contador (mude se quiser)
+                    const namespace = 'ornelas-advocacia';
+                    const key = 'visitas-totais';
+                    
+                    // 1. Registrar a visita (incrementa o contador)
+                    await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+                    
+                    // 2. Obter o valor atual do contador
+                    const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                    const data = await response.json();
+                    
+                    console.log('Dados CountAPI:', data);
+                    
+                    // Atualizar o contador principal
+                    if (data && data.value !== undefined) {
+                        document.getElementById('visitor-count').textContent = formatNumber(data.value);
+                        document.getElementById('visitor-count').style.color = '#D4AF37';
+                    }
+                    
+                    // Para hoje e mês, usamos localStorage (CountAPI não tem esses dados)
+                    updateDailyMonthlyCounters();
+                    
+                } catch (error) {
+                    console.log('Erro CountAPI, usando contador local:', error);
+                    useLocalCounter();
                 }
+            }
+            
+            // Atualizar contadores diários e mensais (com localStorage)
+            function updateDailyMonthlyCounters() {
+                let dailyData = JSON.parse(localStorage.getItem('ornelasDailyCounter')) || {
+                    today: new Date().toDateString(),
+                    count: 0
+                };
+                
+                let monthlyData = JSON.parse(localStorage.getItem('ornelasMonthlyCounter')) || {
+                    month: new Date().getMonth() + '-' + new Date().getFullYear(),
+                    count: 0
+                };
+                
+                const today = new Date().toDateString();
+                const currentMonth = new Date().getMonth() + '-' + new Date().getFullYear();
+                
+                // Verificar se é novo dia
+                if (dailyData.today !== today) {
+                    dailyData.today = today;
+                    dailyData.count = 1;
+                } else {
+                    dailyData.count += 1;
+                }
+                
+                // Verificar se é novo mês
+                if (monthlyData.month !== currentMonth) {
+                    monthlyData.month = currentMonth;
+                    monthlyData.count = 1;
+                } else {
+                    monthlyData.count += 1;
+                }
+                
+                // Salvar dados
+                localStorage.setItem('ornelasDailyCounter', JSON.stringify(dailyData));
+                localStorage.setItem('ornelasMonthlyCounter', JSON.stringify(monthlyData));
+                
+                // Atualizar na tela
+                document.getElementById('today-count').textContent = formatNumber(dailyData.count);
+                document.getElementById('month-count').textContent = formatNumber(monthlyData.count);
+            }
+            
+            // Fallback: contador local completo
+            function useLocalCounter() {
+                console.log('Usando contador local...');
+                let visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
+                    total: 0,
+                    today: 0,
+                    month: 0,
+                    lastVisitDate: null,
+                    currentMonth: null
+                };
                 
                 const now = new Date();
                 const today = now.toDateString();
                 const currentMonth = now.getMonth() + '-' + now.getFullYear();
                 
-                console.log('Data atual:', today, 'Mês atual:', currentMonth);
-                console.log('Dados anteriores:', visitorData);
-                
-                // SEMPRE AUMENTAR CONTADOR TOTAL
                 visitorData.total += 1;
                 
-                // Verificar se é o mesmo dia
                 if (visitorData.lastVisitDate === today) {
                     visitorData.today += 1;
                 } else {
-                    // Novo dia
                     visitorData.today = 1;
                     visitorData.lastVisitDate = today;
                 }
                 
-                // Verificar se é o mesmo mês
                 if (visitorData.currentMonth === currentMonth) {
                     visitorData.month += 1;
                 } else {
-                    // Novo mês
                     visitorData.month = 1;
                     visitorData.currentMonth = currentMonth;
                 }
                 
-                // Salvar dados
-                try {
-                    localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
-                    console.log('Dados salvos:', visitorData);
-                } catch (e) {
-                    console.log('Erro ao salvar dados no localStorage:', e);
-                }
+                localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
                 
-                return visitorData;
+                document.getElementById('visitor-count').textContent = formatNumber(visitorData.total);
+                document.getElementById('today-count').textContent = formatNumber(visitorData.today);
+                document.getElementById('month-count').textContent = formatNumber(visitorData.month);
+                
+                document.querySelector('.counter-label').textContent = 'Visualizações (modo local)';
             }
             
-            // Atualizar os números na tela
-            function displayCounters(visitorData) {
-                console.log('Exibindo contadores:', visitorData);
-                
-                // Atualizar elementos DOM
-                const totalElement = document.getElementById('visitor-count');
-                const todayElement = document.getElementById('today-count');
-                const monthElement = document.getElementById('month-count');
-                
-                if (totalElement) totalElement.textContent = formatNumber(visitorData.total);
-                if (todayElement) todayElement.textContent = formatNumber(visitorData.today);
-                if (monthElement) monthElement.textContent = formatNumber(visitorData.month);
-            }
-            
-            // Inicializar contador
-            const visitorData = updateVisitorCounter();
-            displayCounters(visitorData);
-            
-            // TESTE: Verificar se localStorage está funcionando
-            console.log('Teste localStorage:', localStorage.getItem('ornelasAdvocaciaVisitors'));
+            // Iniciar contador
+            useCountAPI();
         });
 
+        // =============================================
+        // RESTO DO CÓDIGO (mantém tudo igual)
+        // =============================================
+        
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
@@ -699,7 +735,7 @@
             }
         });
 
-        // Certidão form submission - CORRIGIDO
+        // Certidão form submission
         document.getElementById('enviar-certidao').addEventListener('click', function() {
             const cidade = document.getElementById('certidao-cidade').value;
             const tipo = document.getElementById('certidao-tipo').value;
