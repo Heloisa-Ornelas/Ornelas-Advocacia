@@ -153,6 +153,17 @@
             color: #a0aec0;
             margin-top: 5px;
         }
+        
+        /* Animação do contador */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .counter-updated {
+            animation: pulse 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -358,14 +369,14 @@
                     </div>
                 </div>
                 
-                <!-- Contador de Visitantes SIMPLES e FUNCIONAL -->
+                <!-- Contador de Visitantes GLOBAL -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
-                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-globe-americas"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
                     <div class="counter-number" id="visitor-count">0</div>
-                    <p class="counter-label">Visualizações totais da página</p>
+                    <p class="counter-label">Visualizações globais da página</p>
                     
                     <div class="counter-stats">
                         <div class="stat-item">
@@ -377,7 +388,7 @@
                             <div class="stat-label">Este Mês</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-4" id="counter-status">Carregando contador...</p>
+                    <p class="text-xs text-gray-400 mt-4">Contador global em tempo real</p>
                 </div>
             </div>
         </div>
@@ -566,151 +577,112 @@
     </a>
 
     <script>
-        // =============================================
-        // CONTADOR SIMPLES E FUNCIONAL
-        // =============================================
+        // ==================== CONTADOR GLOBAL FUNCIONAL ====================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Iniciando contador de visitas...');
+            console.log('🚀 Iniciando contador global...');
+            
+            // IDs únicos para cada contador
+            const TOTAL_COUNTER_ID = 'ornelas-advocacia-total';
+            const TODAY_COUNTER_ID = 'ornelas-advocacia-today-' + new Date().toISOString().split('T')[0];
+            const MONTH_COUNTER_ID = 'ornelas-advocacia-month-' + new Date().getMonth() + '-' + new Date().getFullYear();
+            
+            // URLs da API
+            const API_BASE = 'https://api.countapi.xyz';
             
             // Função para formatar números
             function formatNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1).replace('.', ',') + 'M';
+                }
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1).replace('.', ',') + 'K';
+                }
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
             
-            // Gerar um ID único para este dispositivo/navegador
-            function getDeviceId() {
-                let deviceId = localStorage.getItem('deviceId');
-                if (!deviceId) {
-                    // Criar um ID único com timestamp + random
-                    deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    localStorage.setItem('deviceId', deviceId);
-                }
-                return deviceId;
-            }
-            
-            // Verificar se esta visita já foi contada hoje
-            function isVisitCountedToday(deviceId) {
-                const today = new Date().toDateString();
-                const lastVisit = localStorage.getItem(`lastVisit_${deviceId}`);
-                return lastVisit === today;
-            }
-            
-            // Atualizar contadores
-            function updateCounters() {
-                const deviceId = getDeviceId();
-                const today = new Date().toDateString();
-                const currentMonth = new Date().getMonth() + '-' + new Date().getFullYear();
-                
-                // ========== CONTADOR TOTAL ==========
-                let totalVisits = parseInt(localStorage.getItem('totalVisits')) || 0;
-                let devices = JSON.parse(localStorage.getItem('devices')) || {};
-                
-                // Se este dispositivo já visitou hoje, não contar de novo
-                if (!isVisitCountedToday(deviceId)) {
-                    // Incrementar contador total
-                    totalVisits += 1;
-                    localStorage.setItem('totalVisits', totalVisits);
-                    
-                    // Registrar esta visita
-                    localStorage.setItem(`lastVisit_${deviceId}`, today);
-                    
-                    // Registrar dispositivo
-                    if (!devices[deviceId]) {
-                        devices[deviceId] = {
-                            firstVisit: new Date().toISOString(),
-                            visitCount: 0
-                        };
-                    }
-                    devices[deviceId].visitCount = (devices[deviceId].visitCount || 0) + 1;
-                    localStorage.setItem('devices', JSON.stringify(devices));
-                    
-                    console.log(`Dispositivo ${deviceId} visitou. Total: ${totalVisits}`);
-                }
-                
-                // ========== CONTADOR HOJE ==========
-                let todayVisits = parseInt(localStorage.getItem(`todayVisits_${today}`)) || 0;
-                // Contar quantos dispositivos diferentes visitaram hoje
-                let todayDevices = 0;
-                for (const id in devices) {
-                    if (localStorage.getItem(`lastVisit_${id}`) === today) {
-                        todayDevices++;
-                    }
-                }
-                todayVisits = todayDevices; // Número de dispositivos únicos hoje
-                localStorage.setItem(`todayVisits_${today}`, todayVisits);
-                
-                // ========== CONTADOR MÊS ==========
-                let monthVisits = parseInt(localStorage.getItem(`monthVisits_${currentMonth}`)) || 0;
-                // Contar dispositivos únicos neste mês
-                let monthDevices = new Set();
-                for (const id in devices) {
-                    const lastVisit = localStorage.getItem(`lastVisit_${id}`);
-                    if (lastVisit) {
-                        const visitDate = new Date(lastVisit);
-                        const visitMonth = visitDate.getMonth() + '-' + visitDate.getFullYear();
-                        if (visitMonth === currentMonth) {
-                            monthDevices.add(id);
-                        }
-                    }
-                }
-                monthVisits = monthDevices.size;
-                localStorage.setItem(`monthVisits_${currentMonth}`, monthVisits);
-                
-                // ========== ATUALIZAR TELA ==========
-                document.getElementById('visitor-count').textContent = formatNumber(totalVisits);
-                document.getElementById('today-count').textContent = formatNumber(todayVisits);
-                document.getElementById('month-count').textContent = formatNumber(monthVisits);
-                
-                // Atualizar status
-                const deviceCount = Object.keys(devices).length;
-                document.getElementById('counter-status').textContent = 
-                    `Baseado em ${deviceCount} dispositivos diferentes`;
-                
-                console.log('Contadores atualizados:', {
-                    total: totalVisits,
-                    hoje: todayVisits,
-                    mes: monthVisits,
-                    dispositivos: deviceCount
-                });
-                
-                // Animar o número principal
-                animateCounter('visitor-count', totalVisits);
-            }
-            
-            // Função para animar o contador
-            function animateCounter(elementId, targetValue) {
+            // Função para animar o número
+            function animateCounter(elementId, newValue) {
                 const element = document.getElementById(elementId);
-                const currentValue = parseInt(element.textContent.replace(/\./g, '')) || 0;
+                if (!element) return;
                 
-                if (currentValue === targetValue) return;
+                element.classList.add('counter-updated');
+                setTimeout(() => {
+                    element.classList.remove('counter-updated');
+                }, 500);
                 
-                const duration = 1000;
-                const steps = 30;
-                const increment = (targetValue - currentValue) / steps;
-                let step = 0;
-                
-                const timer = setInterval(() => {
-                    step++;
-                    const newValue = Math.floor(currentValue + (increment * step));
-                    element.textContent = formatNumber(newValue);
-                    
-                    if (step >= steps) {
-                        element.textContent = formatNumber(targetValue);
-                        clearInterval(timer);
-                    }
-                }, duration / steps);
+                element.textContent = formatNumber(newValue);
             }
             
-            // Iniciar contador
-            updateCounters();
+            // Função principal para atualizar contadores
+            async function updateGlobalCounters() {
+                try {
+                    console.log('📊 Atualizando contadores globais...');
+                    
+                    // 1. Registrar visita TOTAL
+                    const totalHit = await fetch(`${API_BASE}/hit/${TOTAL_COUNTER_ID}`);
+                    const totalData = await totalHit.json();
+                    
+                    // 2. Registrar visita HOJE
+                    const todayHit = await fetch(`${API_BASE}/hit/${TODAY_COUNTER_ID}`);
+                    const todayData = await todayHit.json();
+                    
+                    // 3. Registrar visita MÊS
+                    const monthHit = await fetch(`${API_BASE}/hit/${MONTH_COUNTER_ID}`);
+                    const monthData = await monthHit.json();
+                    
+                    console.log('✅ Dados recebidos:', {
+                        total: totalData.value,
+                        today: todayData.value,
+                        month: monthData.value
+                    });
+                    
+                    // Atualizar os números na tela
+                    animateCounter('visitor-count', totalData.value);
+                    animateCounter('today-count', todayData.value);
+                    animateCounter('month-count', monthData.value);
+                    
+                    // Salvar no localStorage como backup
+                    localStorage.setItem('lastVisitorCount', JSON.stringify({
+                        total: totalData.value,
+                        today: todayData.value,
+                        month: monthData.value,
+                        timestamp: new Date().getTime()
+                    }));
+                    
+                } catch (error) {
+                    console.log('⚠️ Erro na API, usando dados locais:', error);
+                    
+                    // Usar dados do localStorage se a API falhar
+                    const localData = JSON.parse(localStorage.getItem('lastVisitorCount')) || {
+                        total: 0,
+                        today: 0,
+                        month: 0
+                    };
+                    
+                    // Incrementar localmente
+                    localData.total += 1;
+                    localData.today += 1;
+                    localData.month += 1;
+                    localData.timestamp = new Date().getTime();
+                    
+                    localStorage.setItem('lastVisitorCount', JSON.stringify(localData));
+                    
+                    animateCounter('visitor-count', localData.total);
+                    animateCounter('today-count', localData.today);
+                    animateCounter('month-count', localData.month);
+                    
+                    document.querySelector('.counter-label').textContent = 'Visualizações (modo offline)';
+                }
+            }
             
-            // Atualizar contador a cada 10 segundos (para capturar múltiplas abas)
-            setInterval(updateCounters, 10000);
+            // Iniciar o contador
+            updateGlobalCounters();
+            
+            // Atualizar a cada 10 segundos (opcional)
+            setInterval(updateGlobalCounters, 10000);
         });
-
-        // =============================================
-        // RESTO DO CÓDIGO (mantém tudo igual)
-        // =============================================
+        
+        // ==================== FUNÇÕES DO SITE ====================
         
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -775,7 +747,7 @@
             // Construct WhatsApp message
             const whatsappMessage = `Olá! Gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\nMeu contato: ${contato}\n\nValor: R$150,00 + despesas postais`;
             
-            // Open WhatsApp
+            // Open WhatsApp da advogada
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
             
             // Reset form
