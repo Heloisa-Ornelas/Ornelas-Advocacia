@@ -358,14 +358,14 @@
                     </div>
                 </div>
                 
-                <!-- Contador de Visitantes COM COUNTAPI -->
+                <!-- Contador de Visitantes SIMPLES e FUNCIONAL -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
                         <i class="fas fa-eye"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
                     <div class="counter-number" id="visitor-count">0</div>
-                    <p class="counter-label">Visualizações da nossa página</p>
+                    <p class="counter-label">Visualizações totais da página</p>
                     
                     <div class="counter-stats">
                         <div class="stat-item">
@@ -377,7 +377,7 @@
                             <div class="stat-label">Este Mês</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-4">Contador global em tempo real</p>
+                    <p class="text-xs text-gray-400 mt-4" id="counter-status">Carregando contador...</p>
                 </div>
             </div>
         </div>
@@ -567,129 +567,145 @@
 
     <script>
         // =============================================
-        // CONTADOR GLOBAL COM COUNTAPI (FÁCIL!)
+        // CONTADOR SIMPLES E FUNCIONAL
         // =============================================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Iniciando contador de visitas...');
+            
             // Função para formatar números
             function formatNumber(num) {
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
             
-            // Usar CountAPI para contador GLOBAL
-            async function useCountAPI() {
-                try {
-                    console.log('Usando CountAPI...');
-                    
-                    // Nome único para seu contador (mude se quiser)
-                    const namespace = 'ornelas-advocacia';
-                    const key = 'visitas-totais';
-                    
-                    // 1. Registrar a visita (incrementa o contador)
-                    await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-                    
-                    // 2. Obter o valor atual do contador
-                    const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
-                    const data = await response.json();
-                    
-                    console.log('Dados CountAPI:', data);
-                    
-                    // Atualizar o contador principal
-                    if (data && data.value !== undefined) {
-                        document.getElementById('visitor-count').textContent = formatNumber(data.value);
-                        document.getElementById('visitor-count').style.color = '#D4AF37';
-                    }
-                    
-                    // Para hoje e mês, usamos localStorage (CountAPI não tem esses dados)
-                    updateDailyMonthlyCounters();
-                    
-                } catch (error) {
-                    console.log('Erro CountAPI, usando contador local:', error);
-                    useLocalCounter();
+            // Gerar um ID único para este dispositivo/navegador
+            function getDeviceId() {
+                let deviceId = localStorage.getItem('deviceId');
+                if (!deviceId) {
+                    // Criar um ID único com timestamp + random
+                    deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('deviceId', deviceId);
                 }
+                return deviceId;
             }
             
-            // Atualizar contadores diários e mensais (com localStorage)
-            function updateDailyMonthlyCounters() {
-                let dailyData = JSON.parse(localStorage.getItem('ornelasDailyCounter')) || {
-                    today: new Date().toDateString(),
-                    count: 0
-                };
-                
-                let monthlyData = JSON.parse(localStorage.getItem('ornelasMonthlyCounter')) || {
-                    month: new Date().getMonth() + '-' + new Date().getFullYear(),
-                    count: 0
-                };
-                
+            // Verificar se esta visita já foi contada hoje
+            function isVisitCountedToday(deviceId) {
+                const today = new Date().toDateString();
+                const lastVisit = localStorage.getItem(`lastVisit_${deviceId}`);
+                return lastVisit === today;
+            }
+            
+            // Atualizar contadores
+            function updateCounters() {
+                const deviceId = getDeviceId();
                 const today = new Date().toDateString();
                 const currentMonth = new Date().getMonth() + '-' + new Date().getFullYear();
                 
-                // Verificar se é novo dia
-                if (dailyData.today !== today) {
-                    dailyData.today = today;
-                    dailyData.count = 1;
-                } else {
-                    dailyData.count += 1;
+                // ========== CONTADOR TOTAL ==========
+                let totalVisits = parseInt(localStorage.getItem('totalVisits')) || 0;
+                let devices = JSON.parse(localStorage.getItem('devices')) || {};
+                
+                // Se este dispositivo já visitou hoje, não contar de novo
+                if (!isVisitCountedToday(deviceId)) {
+                    // Incrementar contador total
+                    totalVisits += 1;
+                    localStorage.setItem('totalVisits', totalVisits);
+                    
+                    // Registrar esta visita
+                    localStorage.setItem(`lastVisit_${deviceId}`, today);
+                    
+                    // Registrar dispositivo
+                    if (!devices[deviceId]) {
+                        devices[deviceId] = {
+                            firstVisit: new Date().toISOString(),
+                            visitCount: 0
+                        };
+                    }
+                    devices[deviceId].visitCount = (devices[deviceId].visitCount || 0) + 1;
+                    localStorage.setItem('devices', JSON.stringify(devices));
+                    
+                    console.log(`Dispositivo ${deviceId} visitou. Total: ${totalVisits}`);
                 }
                 
-                // Verificar se é novo mês
-                if (monthlyData.month !== currentMonth) {
-                    monthlyData.month = currentMonth;
-                    monthlyData.count = 1;
-                } else {
-                    monthlyData.count += 1;
+                // ========== CONTADOR HOJE ==========
+                let todayVisits = parseInt(localStorage.getItem(`todayVisits_${today}`)) || 0;
+                // Contar quantos dispositivos diferentes visitaram hoje
+                let todayDevices = 0;
+                for (const id in devices) {
+                    if (localStorage.getItem(`lastVisit_${id}`) === today) {
+                        todayDevices++;
+                    }
                 }
+                todayVisits = todayDevices; // Número de dispositivos únicos hoje
+                localStorage.setItem(`todayVisits_${today}`, todayVisits);
                 
-                // Salvar dados
-                localStorage.setItem('ornelasDailyCounter', JSON.stringify(dailyData));
-                localStorage.setItem('ornelasMonthlyCounter', JSON.stringify(monthlyData));
+                // ========== CONTADOR MÊS ==========
+                let monthVisits = parseInt(localStorage.getItem(`monthVisits_${currentMonth}`)) || 0;
+                // Contar dispositivos únicos neste mês
+                let monthDevices = new Set();
+                for (const id in devices) {
+                    const lastVisit = localStorage.getItem(`lastVisit_${id}`);
+                    if (lastVisit) {
+                        const visitDate = new Date(lastVisit);
+                        const visitMonth = visitDate.getMonth() + '-' + visitDate.getFullYear();
+                        if (visitMonth === currentMonth) {
+                            monthDevices.add(id);
+                        }
+                    }
+                }
+                monthVisits = monthDevices.size;
+                localStorage.setItem(`monthVisits_${currentMonth}`, monthVisits);
                 
-                // Atualizar na tela
-                document.getElementById('today-count').textContent = formatNumber(dailyData.count);
-                document.getElementById('month-count').textContent = formatNumber(monthlyData.count);
+                // ========== ATUALIZAR TELA ==========
+                document.getElementById('visitor-count').textContent = formatNumber(totalVisits);
+                document.getElementById('today-count').textContent = formatNumber(todayVisits);
+                document.getElementById('month-count').textContent = formatNumber(monthVisits);
+                
+                // Atualizar status
+                const deviceCount = Object.keys(devices).length;
+                document.getElementById('counter-status').textContent = 
+                    `Baseado em ${deviceCount} dispositivos diferentes`;
+                
+                console.log('Contadores atualizados:', {
+                    total: totalVisits,
+                    hoje: todayVisits,
+                    mes: monthVisits,
+                    dispositivos: deviceCount
+                });
+                
+                // Animar o número principal
+                animateCounter('visitor-count', totalVisits);
             }
             
-            // Fallback: contador local completo
-            function useLocalCounter() {
-                console.log('Usando contador local...');
-                let visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
-                    total: 0,
-                    today: 0,
-                    month: 0,
-                    lastVisitDate: null,
-                    currentMonth: null
-                };
+            // Função para animar o contador
+            function animateCounter(elementId, targetValue) {
+                const element = document.getElementById(elementId);
+                const currentValue = parseInt(element.textContent.replace(/\./g, '')) || 0;
                 
-                const now = new Date();
-                const today = now.toDateString();
-                const currentMonth = now.getMonth() + '-' + now.getFullYear();
+                if (currentValue === targetValue) return;
                 
-                visitorData.total += 1;
+                const duration = 1000;
+                const steps = 30;
+                const increment = (targetValue - currentValue) / steps;
+                let step = 0;
                 
-                if (visitorData.lastVisitDate === today) {
-                    visitorData.today += 1;
-                } else {
-                    visitorData.today = 1;
-                    visitorData.lastVisitDate = today;
-                }
-                
-                if (visitorData.currentMonth === currentMonth) {
-                    visitorData.month += 1;
-                } else {
-                    visitorData.month = 1;
-                    visitorData.currentMonth = currentMonth;
-                }
-                
-                localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
-                
-                document.getElementById('visitor-count').textContent = formatNumber(visitorData.total);
-                document.getElementById('today-count').textContent = formatNumber(visitorData.today);
-                document.getElementById('month-count').textContent = formatNumber(visitorData.month);
-                
-                document.querySelector('.counter-label').textContent = 'Visualizações (modo local)';
+                const timer = setInterval(() => {
+                    step++;
+                    const newValue = Math.floor(currentValue + (increment * step));
+                    element.textContent = formatNumber(newValue);
+                    
+                    if (step >= steps) {
+                        element.textContent = formatNumber(targetValue);
+                        clearInterval(timer);
+                    }
+                }, duration / steps);
             }
             
             // Iniciar contador
-            useCountAPI();
+            updateCounters();
+            
+            // Atualizar contador a cada 10 segundos (para capturar múltiplas abas)
+            setInterval(updateCounters, 10000);
         });
 
         // =============================================
@@ -756,10 +772,10 @@
             // Format phone number (remove non-digits)
             const formattedPhone = contato.replace(/\D/g, '');
             
-            // Construct WhatsApp message - ENVIAR PARA A ADVOGADA
+            // Construct WhatsApp message
             const whatsappMessage = `Olá! Gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\nMeu contato: ${contato}\n\nValor: R$150,00 + despesas postais`;
             
-            // Open WhatsApp da advogada com pre-filled message
+            // Open WhatsApp
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
             
             // Reset form
