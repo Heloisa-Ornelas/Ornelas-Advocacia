@@ -153,32 +153,6 @@
             color: #a0aec0;
             margin-top: 5px;
         }
-        
-        /* Animação do contador */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .counter-pulse {
-            animation: pulse 0.5s ease-in-out;
-        }
-        
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            border-top-color: #D4AF37;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -384,28 +358,25 @@
                     </div>
                 </div>
                 
-                <!-- Contador de Visitantes GLOBAL -->
+                <!-- Contador de Visitantes -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-eye"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
-                    <div class="counter-number" id="visitor-count">
-                        <div class="loading" style="margin: 0 auto;"></div>
-                    </div>
-                    <p class="counter-label">Total de visualizações</p>
+                    <div class="counter-number" id="visitor-count">Carregando...</div>
+                    <p class="counter-label">Visualizações da nossa página</p>
                     
                     <div class="counter-stats">
                         <div class="stat-item">
-                            <div class="stat-value" id="today-count">0</div>
-                            <div class="stat-label">Hoje</div>
+                            <div class="stat-value" id="today-count">-</div>
+                            <div class="stat-label">Contador Global</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value" id="month-count">0</div>
-                            <div class="stat-label">Este Mês</div>
+                            <div class="stat-value" id="month-count">✓</div>
+                            <div class="stat-label">Ativo</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-4">📊 Contador global em tempo real</p>
                 </div>
             </div>
         </div>
@@ -594,141 +565,97 @@
     </a>
 
     <script>
-        // ============================
-        // CONTADOR GLOBAL - COUNTAPI
-        // ============================
+        // ============================================
+        // CONTADOR GLOBAL COM SUA URL DO GOOGLE SCRIPT
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Iniciando contador global...');
+            // SUA URL DO APPS SCRIPT (JÁ INSERIDA)
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4eNvK05iVeN84uXVzTow4E_keKkUXGCkhJp7RYvAt4RnvWLd6i-9v8vWZhMefHwiO_Q/exec';
             
-            // IDs únicos para o contador (altere se quiser reiniciar)
-            const NAMESPACE = 'ornelas-advocacia';
-            const KEY_TOTAL = 'visits-total-global';
-            const KEY_TODAY = 'visits-today';
-            const KEY_MONTH = 'visits-month';
+            console.log('Iniciando contador global... URL:', GOOGLE_SCRIPT_URL);
             
-            const API_BASE = 'https://api.countapi.xyz';
-            
-            // Função para formatar números
+            // Função para formatar números (ex: 1500 → 1.500)
             function formatNumber(num) {
-                if (typeof num !== 'number') num = 0;
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
             
-            // Função para animar contador
-            function animateCounter(elementId, newValue) {
-                const element = document.getElementById(elementId);
-                if (!element) return;
-                
-                const oldValue = parseInt(element.textContent.replace(/\./g, '')) || 0;
-                const diff = newValue - oldValue;
-                
-                if (diff > 0) {
-                    element.classList.add('counter-pulse');
-                    setTimeout(() => {
-                        element.classList.remove('counter-pulse');
-                    }, 500);
-                }
-                
-                element.textContent = formatNumber(newValue);
-            }
-            
-            // Função principal do contador global
+            // Função principal: registra visita e atualiza contador
             async function updateGlobalCounter() {
                 try {
-                    const today = new Date().toDateString();
-                    const month = new Date().getMonth() + '-' + new Date().getFullYear();
+                    console.log('1. Registrando nova visita...');
                     
-                    // 1. REGISTRAR NOVA VISITA (incrementa contador total)
-                    const hitResponse = await fetch(`${API_BASE}/hit/${NAMESPACE}/${KEY_TOTAL}`);
-                    const hitData = await hitResponse.json();
+                    // Tenta registrar a visita (chamada 1)
+                    // O modo 'no-cors' é necessário para o Google Apps Script
+                    await fetch(GOOGLE_SCRIPT_URL + '?action=add', {
+                        method: 'GET',
+                        mode: 'no-cors'
+                    });
                     
-                    if (hitData.value) {
-                        console.log('✅ Visita registrada! Total:', hitData.value);
-                        animateCounter('visitor-count', hitData.value);
-                    }
+                    console.log('Visita registrada. Buscando total atual...');
                     
-                    // 2. OBTER CONTADOR DO DIA (usando data atual como chave)
-                    const todayKey = `${KEY_TODAY}-${today}`;
-                    const todayHit = await fetch(`${API_BASE}/hit/${NAMESPACE}/${todayKey}`);
-                    const todayData = await todayHit.json();
-                    
-                    if (todayData.value) {
-                        animateCounter('today-count', todayData.value);
-                    }
-                    
-                    // 3. OBTER CONTADOR DO MÊS (usando mês atual como chave)
-                    const monthKey = `${KEY_MONTH}-${month}`;
-                    const monthHit = await fetch(`${API_BASE}/hit/${NAMESPACE}/${monthKey}`);
-                    const monthData = await monthHit.json();
-                    
-                    if (monthData.value) {
-                        animateCounter('month-count', monthData.value);
-                    }
-                    
-                    // 4. SE FOR A PRIMEIRA VEZ HOJE, BUSCAR VALORES EXISTENTES
-                    if (!hitData.value) {
-                        const getTotal = await fetch(`${API_BASE}/get/${NAMESPACE}/${KEY_TOTAL}`);
-                        const totalData = await getTotal.json();
-                        
-                        if (totalData.value) {
-                            animateCounter('visitor-count', totalData.value);
+                    // Aguarda um pouco para o servidor processar
+                    setTimeout(async () => {
+                        try {
+                            // Busca o total atualizado (chamada 2)
+                            const response = await fetch(GOOGLE_SCRIPT_URL + '?action=get');
+                            
+                            if (!response.ok) {
+                                throw new Error(`Erro HTTP: ${response.status}`);
+                            }
+                            
+                            const totalText = await response.text();
+                            const total = parseInt(totalText) || 0;
+                            
+                            console.log('Total recebido do servidor:', total);
+                            
+                            // Atualiza os elementos na página
+                            document.getElementById('visitor-count').textContent = formatNumber(total);
+                            document.getElementById('today-count').textContent = formatNumber(total);
+                            document.getElementById('month-count').textContent = '✓';
+                            
+                        } catch (fetchError) {
+                            console.error('Erro ao buscar total:', fetchError);
+                            showFallbackCounter();
                         }
-                    }
-                    
-                    console.log('📊 Estatísticas carregadas com sucesso!');
+                    }, 800); // Aguarda 0.8 segundos antes de buscar o total
                     
                 } catch (error) {
-                    console.log('⚠️ Usando fallback local:', error);
-                    useLocalFallback();
+                    console.error('Erro ao registrar visita:', error);
+                    showFallbackCounter();
                 }
             }
             
-            // Fallback local caso a API falhe
-            function useLocalFallback() {
-                let visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
-                    total: 0,
-                    today: 0,
-                    month: 0,
-                    lastVisitDate: null,
-                    currentMonth: null
+            // Fallback: contador local caso o Google Script falhe
+            function showFallbackCounter() {
+                console.log('Usando contador local (fallback)...');
+                
+                let localData = JSON.parse(localStorage.getItem('ornelasLocalVisits')) || {
+                    count: 0,
+                    lastDate: null
                 };
                 
-                const now = new Date();
-                const today = now.toDateString();
-                const currentMonth = now.getMonth() + '-' + now.getFullYear();
+                const today = new Date().toDateString();
                 
-                visitorData.total += 1;
-                
-                if (visitorData.lastVisitDate === today) {
-                    visitorData.today += 1;
-                } else {
-                    visitorData.today = 1;
-                    visitorData.lastVisitDate = today;
+                // Só conta uma vez por dia no fallback
+                if (localData.lastDate !== today) {
+                    localData.count += 1;
+                    localData.lastDate = today;
+                    localStorage.setItem('ornelasLocalVisits', JSON.stringify(localData));
                 }
                 
-                if (visitorData.currentMonth === currentMonth) {
-                    visitorData.month += 1;
-                } else {
-                    visitorData.month = 1;
-                    visitorData.currentMonth = currentMonth;
-                }
-                
-                localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
-                
-                animateCounter('visitor-count', visitorData.total);
-                animateCounter('today-count', visitorData.today);
-                animateCounter('month-count', visitorData.month);
-                
-                document.querySelector('.counter-label').textContent = 'Visualizações (modo offline)';
+                document.getElementById('visitor-count').textContent = formatNumber(localData.count);
+                document.getElementById('today-count').textContent = 'Local';
+                document.getElementById('month-count').textContent = '~';
+                document.querySelector('.counter-label').textContent += ' (modo local)';
             }
             
-            // Iniciar contador após 500ms (para não bloquear carregamento)
-            setTimeout(updateGlobalCounter, 500);
+            // Inicia o contador global
+            updateGlobalCounter();
         });
         
-        // ============================
-        // RESTANTE DO JAVASCRIPT
-        // ============================
+        // ============================================
+        // CÓDIGO ORIGINAL DO SITE (NAVEGAÇÃO, FORMULÁRIOS, ETC.)
+        // ============================================
         
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
