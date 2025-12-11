@@ -161,8 +161,23 @@
             100% { transform: scale(1); }
         }
         
-        .counter-updated {
+        .counter-pulse {
             animation: pulse 0.5s ease-in-out;
+        }
+        
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            border-top-color: #D4AF37;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -372,11 +387,13 @@
                 <!-- Contador de Visitantes GLOBAL -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
-                        <i class="fas fa-globe-americas"></i>
+                        <i class="fas fa-users"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
-                    <div class="counter-number" id="visitor-count">0</div>
-                    <p class="counter-label">Visualizações globais da página</p>
+                    <div class="counter-number" id="visitor-count">
+                        <div class="loading" style="margin: 0 auto;"></div>
+                    </div>
+                    <p class="counter-label">Total de visualizações</p>
                     
                     <div class="counter-stats">
                         <div class="stat-item">
@@ -388,7 +405,7 @@
                             <div class="stat-label">Este Mês</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-4">Contador global em tempo real</p>
+                    <p class="text-xs text-gray-400 mt-4">📊 Contador global em tempo real</p>
                 </div>
             </div>
         </div>
@@ -577,112 +594,141 @@
     </a>
 
     <script>
-        // ==================== CONTADOR GLOBAL FUNCIONAL ====================
+        // ============================
+        // CONTADOR GLOBAL - COUNTAPI
+        // ============================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Iniciando contador global...');
             
-            // IDs únicos para cada contador
-            const TOTAL_COUNTER_ID = 'ornelas-advocacia-total';
-            const TODAY_COUNTER_ID = 'ornelas-advocacia-today-' + new Date().toISOString().split('T')[0];
-            const MONTH_COUNTER_ID = 'ornelas-advocacia-month-' + new Date().getMonth() + '-' + new Date().getFullYear();
+            // IDs únicos para o contador (altere se quiser reiniciar)
+            const NAMESPACE = 'ornelas-advocacia';
+            const KEY_TOTAL = 'visits-total-global';
+            const KEY_TODAY = 'visits-today';
+            const KEY_MONTH = 'visits-month';
             
-            // URLs da API
             const API_BASE = 'https://api.countapi.xyz';
             
             // Função para formatar números
             function formatNumber(num) {
-                if (num >= 1000000) {
-                    return (num / 1000000).toFixed(1).replace('.', ',') + 'M';
-                }
-                if (num >= 1000) {
-                    return (num / 1000).toFixed(1).replace('.', ',') + 'K';
-                }
+                if (typeof num !== 'number') num = 0;
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
             
-            // Função para animar o número
+            // Função para animar contador
             function animateCounter(elementId, newValue) {
                 const element = document.getElementById(elementId);
                 if (!element) return;
                 
-                element.classList.add('counter-updated');
-                setTimeout(() => {
-                    element.classList.remove('counter-updated');
-                }, 500);
+                const oldValue = parseInt(element.textContent.replace(/\./g, '')) || 0;
+                const diff = newValue - oldValue;
+                
+                if (diff > 0) {
+                    element.classList.add('counter-pulse');
+                    setTimeout(() => {
+                        element.classList.remove('counter-pulse');
+                    }, 500);
+                }
                 
                 element.textContent = formatNumber(newValue);
             }
             
-            // Função principal para atualizar contadores
-            async function updateGlobalCounters() {
+            // Função principal do contador global
+            async function updateGlobalCounter() {
                 try {
-                    console.log('📊 Atualizando contadores globais...');
+                    const today = new Date().toDateString();
+                    const month = new Date().getMonth() + '-' + new Date().getFullYear();
                     
-                    // 1. Registrar visita TOTAL
-                    const totalHit = await fetch(`${API_BASE}/hit/${TOTAL_COUNTER_ID}`);
-                    const totalData = await totalHit.json();
+                    // 1. REGISTRAR NOVA VISITA (incrementa contador total)
+                    const hitResponse = await fetch(`${API_BASE}/hit/${NAMESPACE}/${KEY_TOTAL}`);
+                    const hitData = await hitResponse.json();
                     
-                    // 2. Registrar visita HOJE
-                    const todayHit = await fetch(`${API_BASE}/hit/${TODAY_COUNTER_ID}`);
+                    if (hitData.value) {
+                        console.log('✅ Visita registrada! Total:', hitData.value);
+                        animateCounter('visitor-count', hitData.value);
+                    }
+                    
+                    // 2. OBTER CONTADOR DO DIA (usando data atual como chave)
+                    const todayKey = `${KEY_TODAY}-${today}`;
+                    const todayHit = await fetch(`${API_BASE}/hit/${NAMESPACE}/${todayKey}`);
                     const todayData = await todayHit.json();
                     
-                    // 3. Registrar visita MÊS
-                    const monthHit = await fetch(`${API_BASE}/hit/${MONTH_COUNTER_ID}`);
+                    if (todayData.value) {
+                        animateCounter('today-count', todayData.value);
+                    }
+                    
+                    // 3. OBTER CONTADOR DO MÊS (usando mês atual como chave)
+                    const monthKey = `${KEY_MONTH}-${month}`;
+                    const monthHit = await fetch(`${API_BASE}/hit/${NAMESPACE}/${monthKey}`);
                     const monthData = await monthHit.json();
                     
-                    console.log('✅ Dados recebidos:', {
-                        total: totalData.value,
-                        today: todayData.value,
-                        month: monthData.value
-                    });
+                    if (monthData.value) {
+                        animateCounter('month-count', monthData.value);
+                    }
                     
-                    // Atualizar os números na tela
-                    animateCounter('visitor-count', totalData.value);
-                    animateCounter('today-count', todayData.value);
-                    animateCounter('month-count', monthData.value);
+                    // 4. SE FOR A PRIMEIRA VEZ HOJE, BUSCAR VALORES EXISTENTES
+                    if (!hitData.value) {
+                        const getTotal = await fetch(`${API_BASE}/get/${NAMESPACE}/${KEY_TOTAL}`);
+                        const totalData = await getTotal.json();
+                        
+                        if (totalData.value) {
+                            animateCounter('visitor-count', totalData.value);
+                        }
+                    }
                     
-                    // Salvar no localStorage como backup
-                    localStorage.setItem('lastVisitorCount', JSON.stringify({
-                        total: totalData.value,
-                        today: todayData.value,
-                        month: monthData.value,
-                        timestamp: new Date().getTime()
-                    }));
+                    console.log('📊 Estatísticas carregadas com sucesso!');
                     
                 } catch (error) {
-                    console.log('⚠️ Erro na API, usando dados locais:', error);
-                    
-                    // Usar dados do localStorage se a API falhar
-                    const localData = JSON.parse(localStorage.getItem('lastVisitorCount')) || {
-                        total: 0,
-                        today: 0,
-                        month: 0
-                    };
-                    
-                    // Incrementar localmente
-                    localData.total += 1;
-                    localData.today += 1;
-                    localData.month += 1;
-                    localData.timestamp = new Date().getTime();
-                    
-                    localStorage.setItem('lastVisitorCount', JSON.stringify(localData));
-                    
-                    animateCounter('visitor-count', localData.total);
-                    animateCounter('today-count', localData.today);
-                    animateCounter('month-count', localData.month);
-                    
-                    document.querySelector('.counter-label').textContent = 'Visualizações (modo offline)';
+                    console.log('⚠️ Usando fallback local:', error);
+                    useLocalFallback();
                 }
             }
             
-            // Iniciar o contador
-            updateGlobalCounters();
+            // Fallback local caso a API falhe
+            function useLocalFallback() {
+                let visitorData = JSON.parse(localStorage.getItem('ornelasAdvocaciaVisitors')) || {
+                    total: 0,
+                    today: 0,
+                    month: 0,
+                    lastVisitDate: null,
+                    currentMonth: null
+                };
+                
+                const now = new Date();
+                const today = now.toDateString();
+                const currentMonth = now.getMonth() + '-' + now.getFullYear();
+                
+                visitorData.total += 1;
+                
+                if (visitorData.lastVisitDate === today) {
+                    visitorData.today += 1;
+                } else {
+                    visitorData.today = 1;
+                    visitorData.lastVisitDate = today;
+                }
+                
+                if (visitorData.currentMonth === currentMonth) {
+                    visitorData.month += 1;
+                } else {
+                    visitorData.month = 1;
+                    visitorData.currentMonth = currentMonth;
+                }
+                
+                localStorage.setItem('ornelasAdvocaciaVisitors', JSON.stringify(visitorData));
+                
+                animateCounter('visitor-count', visitorData.total);
+                animateCounter('today-count', visitorData.today);
+                animateCounter('month-count', visitorData.month);
+                
+                document.querySelector('.counter-label').textContent = 'Visualizações (modo offline)';
+            }
             
-            // Atualizar a cada 10 segundos (opcional)
-            setInterval(updateGlobalCounters, 10000);
+            // Iniciar contador após 500ms (para não bloquear carregamento)
+            setTimeout(updateGlobalCounter, 500);
         });
         
-        // ==================== FUNÇÕES DO SITE ====================
+        // ============================
+        // RESTANTE DO JAVASCRIPT
+        // ============================
         
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -744,10 +790,10 @@
             // Format phone number (remove non-digits)
             const formattedPhone = contato.replace(/\D/g, '');
             
-            // Construct WhatsApp message
+            // Construct WhatsApp message - ENVIAR PARA A ADVOGADA
             const whatsappMessage = `Olá! Gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\nMeu contato: ${contato}\n\nValor: R$150,00 + despesas postais`;
             
-            // Open WhatsApp da advogada
+            // Open WhatsApp da advogada com pre-filled message
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
             
             // Reset form
