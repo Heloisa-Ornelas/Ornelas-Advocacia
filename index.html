@@ -153,6 +153,23 @@
             color: #a0aec0;
             margin-top: 5px;
         }
+        
+        /* Estilos para a seção de parcerias */
+        .partnership-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .partnership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #D4AF37;
+        }
+        
+        .partnership-logo {
+            height: 120px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -172,6 +189,7 @@
                 <a href="#quem-somos" class="nav-link">Quem Somos</a>
                 <a href="#areas-atuacao" class="nav-link">Áreas de Atuação</a>
                 <a href="#contato" class="nav-link">Contato</a>
+                <a href="#parcerias" class="nav-link">Parcerias</a>
             </nav>
             
             <div class="md:hidden">
@@ -190,6 +208,7 @@
                 <a href="#quem-somos" class="nav-link">Quem Somos</a>
                 <a href="#areas-atuacao" class="nav-link">Áreas de Atuação</a>
                 <a href="#contato" class="nav-link">Contato</a>
+                <a href="#parcerias" class="nav-link">Parcerias</a>
             </div>
         </div>
     </header>
@@ -485,6 +504,47 @@
         </div>
     </section>
 
+    <!-- Parcerias Section -->
+    <section id="parcerias" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Nossas Parcerias</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Trabalhamos em conjunto com empresas e organizações comprometidas com a excelência e o desenvolvimento da comunidade.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Parceria 1: Wike Serviços e Manutenções LTDA -->
+                <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://files.catbox.moe/lg3azu.jpeg" alt="Logo Wike Serviços e Manutenções LTDA" class="partnership-logo">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Wike Serviços e Manutenções LTDA</h3>
+                    <p class="text-gray-600 mb-4">Empresa especializada em serviços técnicos e manutenções industriais com compromisso com a qualidade e segurança.</p>
+                    <div class="mt-4">
+                        <span class="inline-block bg-gold-500 text-white text-xs px-3 py-1 rounded-full">Parceiro Oficial</span>
+                    </div>
+                </div>
+                
+                <!-- Parceria 2: Projeto Estudar e Lutar -->
+                <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://files.catbox.moe/nxmki8.jpeg" alt="Logo Projeto Estudar e Lutar" class="partnership-logo">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Projeto Estudar e Lutar</h3>
+                    <p class="text-gray-600 mb-4">Iniciativa social que promove educação e desenvolvimento comunitário através de programas de capacitação e apoio educacional.</p>
+                    <div class="mt-4">
+                        <span class="inline-block bg-blue-500 text-white text-xs px-3 py-1 rounded-full">Projeto Social</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-gray-700 mb-4">Interessado em se tornar um parceiro?</p>
+                <a href="#contato" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block">
+                    Entre em contato
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
         <div class="container mx-auto px-4">
@@ -519,6 +579,7 @@
                         <li><a href="#quem-somos" class="text-gray-400 hover:text-gold-500 transition duration-300">Quem Somos</a></li>
                         <li><a href="#areas-atuacao" class="text-gray-400 hover:text-gold-500 transition duration-300">Áreas de Atuação</a></li>
                         <li><a href="#contato" class="text-gray-400 hover:text-gold-500 transition duration-300">Contato</a></li>
+                        <li><a href="#parcerias" class="text-gray-400 hover:text-gold-500 transition duration-300">Parcerias</a></li>
                     </ul>
                 </div>
                 
