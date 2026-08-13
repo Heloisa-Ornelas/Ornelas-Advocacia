@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ornelas Advocacia - Consultoria e Assessoria Jurídica</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -24,16 +25,16 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-        
+
         body {
             font-family: 'Montserrat', sans-serif;
             scroll-behavior: smooth;
         }
-        
+
         .nav-link {
             position: relative;
         }
-        
+
         .nav-link:after {
             content: '';
             position: absolute;
@@ -44,38 +45,38 @@
             background-color: #D4AF37;
             transition: width 0.3s ease;
         }
-        
+
         .nav-link:hover:after {
             width: 100%;
         }
-        
+
         .active-nav:after {
             width: 100%;
         }
-        
+
         .hero-section {
             background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
             background-position: center;
         }
-        
+
         .practice-area-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .contact-input:focus {
             outline: none;
             border-color: #D4AF37;
         }
-        
+
         .map-container {
             overflow: hidden;
             padding-bottom: 56.25%;
             position: relative;
             height: 0;
         }
-        
+
         .map-container iframe {
             left: 0;
             top: 0;
@@ -83,7 +84,7 @@
             width: 100%;
             position: absolute;
         }
-        
+
         .back-to-top {
             position: fixed;
             bottom: 20px;
@@ -91,7 +92,7 @@
             display: none;
             z-index: 99;
         }
-        
+
         /* Estilos para o contador de visitas */
         .visitor-counter {
             background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
@@ -102,12 +103,12 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .visitor-counter:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
-        
+
         .counter-number {
             font-size: 3rem;
             font-weight: 700;
@@ -115,19 +116,19 @@
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
             margin: 10px 0;
         }
-        
+
         .counter-label {
             color: #e2e8f0;
             font-size: 1rem;
             margin-top: 5px;
         }
-        
+
         .counter-icon {
             font-size: 2.5rem;
             color: #D4AF37;
             margin-bottom: 10px;
         }
-        
+
         .counter-stats {
             display: flex;
             justify-content: space-around;
@@ -135,37 +136,37 @@
             padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .stat-item {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        
+
         .stat-value {
             font-weight: 600;
             color: #D4AF37;
             font-size: 1.2rem;
         }
-        
+
         .stat-label {
             font-size: 0.75rem;
             color: #a0aec0;
             margin-top: 5px;
         }
-        
+
         /* Estilos para a seção de parcerias */
         .partnership-card {
             transition: all 0.3s ease;
             border: 1px solid #e5e7eb;
         }
-        
+
         .partnership-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border-color: #D4AF37;
         }
-        
+
         .partnership-logo {
             height: 120px;
             object-fit: contain;
@@ -173,11 +174,35 @@
 
         /* Efeito de piscar para o ícone do WhatsApp */
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
         }
         .whatsapp-blink {
             animation: blink 1.2s infinite;
+        }
+
+        /* Estilos para os cards da equipe */
+        .team-card {
+            transition: all 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .team-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+        @media (max-width: 768px) {
+            .team-card img {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -192,7 +217,7 @@
                     <p class="text-xs text-gray-600">Consultoria e Assessoria Jurídica</p>
                 </div>
             </div>
-            
+
             <nav class="hidden md:flex space-x-8">
                 <a href="#inicio" class="nav-link active-nav">Início</a>
                 <a href="#quem-somos" class="nav-link">Quem Somos</a>
@@ -200,7 +225,7 @@
                 <a href="#contato" class="nav-link">Contato</a>
                 <a href="#parcerias" class="nav-link">Parcerias</a>
             </nav>
-            
+
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +234,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Mobile menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-4 shadow-lg">
             <div class="flex flex-col space-y-4">
@@ -227,7 +252,7 @@
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-3xl md:text-5xl font-bold mb-4">Compromisso com a Justiça e com Você</h1>
             <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto">Soluções jurídicas personalizadas para proteger seus direitos e interesses.</p>
-            
+
             <!-- Contatos em destaque na hero -->
             <div class="flex flex-wrap justify-center items-center gap-6 mb-8 bg-white/10 backdrop-blur-sm rounded-xl py-4 px-6 max-w-3xl mx-auto">
                 <div class="flex items-center gap-2">
@@ -254,30 +279,33 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section - Agora com dois profissionais -->
     <section id="quem-somos" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Quem Somos</h2>
-            
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="md:w-1/2">
-                    <img src="https://files.catbox.moe/zmnz7m.jpg" alt="Heloísa Ornelas" class="rounded-lg shadow-lg w-full">
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Conheça nossa equipe de advogados especializados, prontos para oferecer soluções jurídicas com excelência e comprometimento.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Card da Dra. Heloisa Ornelas -->
+                <div class="team-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://files.catbox.moe/zmnz7m.jpg" alt="Heloísa Ornelas" class="w-full">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-1">Heloisa Ornelas</h3>
+                        <p class="text-gold-500 font-medium mb-3">OAB/PR 81.583</p>
+                        <p class="text-gray-700 mb-3">Advogada fundadora da Ornelas Advocacia, formada pela Universidade Curitiba, com especialização em Contratos, Licitações, Direito Constitucional e Processo Civil. Entre outros cursos de atualização.</p>
+                        <p class="text-gray-700">Com mais de 10 anos de experiência no mercado jurídico, Heloisa dedica-se a oferecer soluções jurídicas personalizadas, com ética, transparência e comprometimento com os interesses de seus clientes.</p>
+                    </div>
                 </div>
-                
-                <div class="md:w-1/2">
-                    <h3 class="text-2xl font-semibold mb-4">Heloisa Ornelas</h3>
-                    <p class="text-gray-700 mb-4">Advogada fundadora da Ornelas Advocacia, formada pela Universidade Curitiba, com especialização em Contratos, Licitações, Direito Constitucional e Processo Civil. Entre outros cursos de atualização.</p>
-                    <p class="text-gray-700 mb-4">Com mais de 10 anos de experiência no mercado jurídico, Heloisa dedica-se a oferecer soluções jurídicas personalizadas, com ética, transparência e comprometimento com os interesses de seus clientes.</p>
-                    <p class="text-gray-700 mb-6">Nosso escritório tem como missão democratizar o acesso à justiça, oferecendo serviços jurídicos de excelência com atendimento humanizado e focado nas necessidades individuais de cada cliente.</p>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <div class="bg-gray-100 px-4 py-2 rounded-full flex items-center">
-                            <i class="fas fa-graduation-cap text-gold-500 mr-2"></i>
-                            <span>OAB/PR 81.583</span>
-                        </div>
-                        <div class="bg-gray-100 px-4 py-2 rounded-full flex items-center">
-                            <i class="fas fa-award text-gold-500 mr-2"></i>
-                            <span>10+ anos de experiência</span>
+
+                <!-- Card do Dr. Paulo Wilkom de Ornelas -->
+                <div class="team-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://i.ibb.co/qLdRyY4h/Whats-App-Image-2026-08-06-at-19-58-29.jpg" alt="Paulo Wilkom de Ornelas" class="w-full">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-1">Paulo Wilkom de Ornelas</h3>
+                        <p class="text-gold-500 font-medium mb-3">OAB/PR 133.110</p>
+                        <div class="text-gray-700 space-y-2">
+                            <p>Formado em Administração pela Uniuvi (2009). Especialista no Curso de Perícia Judicial, Cálculos Judiciais, Cíveis e Contratos Bancários (2008).</p>
+                            <p>Formado em Direito pela UGV (2025). Pós-graduado em Direito do Trabalho e Previdenciário (2026).</p>
                         </div>
                     </div>
                 </div>
@@ -290,7 +318,7 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-4">Áreas de Atuação</h2>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Oferecemos assessoria jurídica especializada em diversas áreas do direito para atender às necessidades de nossos clientes.</p>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Direito Bancário -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
@@ -303,7 +331,7 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
-                
+
                 <!-- Direito do Consumidor -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
                     <div class="h-48 bg-gray-800 flex items-center justify-center">
@@ -315,7 +343,7 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
-                
+
                 <!-- Direito da Família -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
                     <div class="h-48 bg-gray-800 flex items-center justify-center">
@@ -327,7 +355,7 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
-                
+
                 <!-- Direito do Trabalho -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
                     <div class="h-48 bg-gray-800 flex items-center justify-center">
@@ -339,7 +367,7 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
-                
+
                 <!-- Aposentadoria -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
                     <div class="h-48 bg-gray-800 flex items-center justify-center">
@@ -351,7 +379,7 @@
                         <a href="#contato" class="text-gold-500 font-semibold hover:underline">Saiba mais</a>
                     </div>
                 </div>
-                
+
                 <!-- Solicite sua Certidão -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden practice-area-card transition duration-300">
                     <div class="h-48 bg-gray-800 flex items-center justify-center">
@@ -360,7 +388,7 @@
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-3">Solicite sua Certidão</h3>
                         <p class="text-gray-600 mb-4">Cada certidão custa R$150,00 + despesas postais</p>
-                        
+
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-gray-700 mb-1">Cidade</label>
@@ -380,7 +408,7 @@
                                     <!-- Add more PR cities as needed -->
                                 </select>
                             </div>
-                            
+
                             <div>
                                 <label class="block text-gray-700 mb-1">Tipo de Certidão</label>
                                 <select id="certidao-tipo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
@@ -394,19 +422,19 @@
                                     <option value="Casamento">Casamento</option>
                                 </select>
                             </div>
-                            
+
                             <div>
                                 <label class="block text-gray-700 mb-1">Informe seu contato de WhatsApp</label>
                                 <input type="tel" id="certidao-contato" placeholder="(xx) xxxxx-xxxx" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-gold-500 transition duration-300">
                             </div>
-                            
+
                             <button id="enviar-certidao" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full">
                                 Enviar Mensagem
                             </button>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Contador de Visitantes -->
                 <div class="visitor-counter">
                     <div class="counter-icon">
@@ -415,7 +443,7 @@
                     <h3 class="text-xl font-bold text-white mb-2">Acessos ao Site</h3>
                     <div class="counter-number" id="visitor-count">Carregando...</div>
                     <p class="counter-label">Visualizações da nossa página</p>
-                    
+
                     <div class="counter-stats">
                         <div class="stat-item">
                             <div class="stat-value" id="today-count">-</div>
@@ -435,42 +463,42 @@
     <section id="contato" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Contato</h2>
-            
+
             <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/2">
                     <h3 class="text-2xl font-semibold mb-6">Entre em contato conosco</h3>
-                    
+
                     <form id="contact-form" class="space-y-6">
                         <div>
                             <label for="name" class="block text-gray-700 mb-2">Nome completo</label>
                             <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required>
                         </div>
-                        
+
                         <div>
                             <label for="email" class="block text-gray-700 mb-2">E-mail</label>
                             <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required>
                         </div>
-                        
+
                         <div>
                             <label for="phone" class="block text-gray-700 mb-2">Telefone</label>
                             <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required>
                         </div>
-                        
+
                         <div>
                             <label for="message" class="block text-gray-700 mb-2">Mensagem</label>
                             <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg contact-input focus:border-gold-500 transition duration-300" required></textarea>
                         </div>
-                        
+
                         <button type="button" onclick="sendWhatsAppMessage()" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full">
                             Enviar Mensagem
                         </button>
                     </form>
                 </div>
-                
+
                 <div class="lg:w-1/2">
                     <div class="bg-gray-100 p-6 rounded-lg h-full">
                         <h3 class="text-2xl font-semibold mb-6">Informações de contato</h3>
-                        
+
                         <div class="space-y-6">
                             <div class="flex items-start">
                                 <i class="fas fa-map-marker-alt text-gold-500 mt-1 mr-4"></i>
@@ -479,7 +507,7 @@
                                     <p class="text-gray-700">R. Ledy Afonso Roderjan, 1615 – São Mateus do Sul, PR – 83902-042</p>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-start">
                                 <i class="fas fa-phone-alt text-gold-500 mt-1 mr-4"></i>
                                 <div>
@@ -490,7 +518,7 @@
                                     </a>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-start">
                                 <i class="fas fa-phone-alt text-red-500 mt-1 mr-4"></i>
                                 <div>
@@ -501,7 +529,7 @@
                                     </a>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-start">
                                 <i class="fas fa-envelope text-gold-500 mt-1 mr-4"></i>
                                 <div>
@@ -512,7 +540,7 @@
                                     </a>
                                 </div>
                             </div>
-                            
+
                             <div class="flex items-start">
                                 <i class="fas fa-clock text-gold-500 mt-1 mr-4"></i>
                                 <div>
@@ -521,7 +549,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mt-8">
                             <h4 class="font-semibold mb-4">Nosso escritório</h4>
                             <div class="map-container rounded-lg overflow-hidden shadow-md">
@@ -539,7 +567,7 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Nossas Parcerias</h2>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Trabalhamos em conjunto com empresas e organizações comprometidas com a excelência e o desenvolvimento da comunidade.</p>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
                 <!-- Parceria 1: Wike Serviços e Manutenções LTDA -->
                 <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
@@ -548,7 +576,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Wike Serviços e Manutenções LTDA</h3>
                 </div>
-                
+
                 <!-- Parceria 2: Projeto Estudar e Lutar -->
                 <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
                     <div class="flex justify-center mb-6">
@@ -556,7 +584,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Projeto Estudar e Lutar</h3>
                 </div>
-                
+
                 <!-- Parceria 3: Borges Industriais -->
                 <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
                     <div class="flex justify-center mb-6">
@@ -564,7 +592,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Borges Industriais</h3>
                 </div>
-                
+
                 <!-- Parceria 4: Rakel Lima beleza e estética -->
                 <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
                     <div class="flex justify-center mb-6">
@@ -573,7 +601,7 @@
                     <h3 class="text-xl font-bold text-gray-800">Rakel Lima<br>beleza e estética</h3>
                 </div>
             </div>
-            
+
             <div class="mt-16 text-center">
                 <p class="text-gray-700 mb-6 text-lg">Interessado em se tornar um parceiro?</p>
                 <a href="#contato" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block">
@@ -596,7 +624,7 @@
                         </div>
                     </div>
                     <p class="text-gray-400 mb-4">Escritório especializado em diversas áreas do direito, oferecendo soluções jurídicas personalizadas com ética e comprometimento.</p>
-                    
+
                     <div class="flex space-x-4">
                         <a href="https://www.facebook.com/OrnelasAdvogada" target="_blank" class="text-gray-400 hover:text-gold-500 transition duration-300">
                             <i class="fab fa-facebook-f text-xl"></i>
@@ -609,7 +637,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="md:w-1/3">
                     <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
                     <ul class="space-y-2">
@@ -620,7 +648,7 @@
                         <li><a href="#parcerias" class="text-gray-400 hover:text-gold-500 transition duration-300">Parcerias</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="md:w-1/3">
                     <h3 class="text-lg font-semibold mb-4">Informações</h3>
                     <ul class="space-y-2 text-gray-400">
@@ -650,7 +678,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
                 <p>&copy; 2025 Ornelas Advocacia. Todos os direitos reservados.</p>
                 <p class="mt-2">Desenvolvido com paixão para servir com excelência.</p>
@@ -670,92 +698,92 @@
         document.addEventListener('DOMContentLoaded', function() {
             // SUA URL DO APPS SCRIPT (JÁ INSERIDA)
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4eNvK05iVeN84uXVzTow4E_keKkUXGCkhJp7RYvAt4RnvWLd6i-9v8vWZhMefHwiO_Q/exec';
-            
+
             console.log('Iniciando contador global... URL:', GOOGLE_SCRIPT_URL);
-            
+
             // Função para formatar números (ex: 1500 → 1.500)
             function formatNumber(num) {
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
-            
+
             // Função principal: registra visita e atualiza contador
             async function updateGlobalCounter() {
                 try {
                     console.log('1. Registrando nova visita...');
-                    
+
                     // Tenta registrar a visita (chamada 1)
                     // O modo 'no-cors' é necessário para o Google Apps Script
                     await fetch(GOOGLE_SCRIPT_URL + '?action=add', {
                         method: 'GET',
                         mode: 'no-cors'
                     });
-                    
+
                     console.log('Visita registrada. Buscando total atual...');
-                    
+
                     // Aguarda um pouco para o servidor processar
                     setTimeout(async () => {
                         try {
                             // Busca o total atualizado (chamada 2)
                             const response = await fetch(GOOGLE_SCRIPT_URL + '?action=get');
-                            
+
                             if (!response.ok) {
                                 throw new Error(`Erro HTTP: ${response.status}`);
                             }
-                            
+
                             const totalText = await response.text();
                             const total = parseInt(totalText) || 0;
-                            
+
                             console.log('Total recebido do servidor:', total);
-                            
+
                             // Atualiza os elementos na página
                             document.getElementById('visitor-count').textContent = formatNumber(total);
                             document.getElementById('today-count').textContent = formatNumber(total);
                             document.getElementById('month-count').textContent = '✓';
-                            
+
                         } catch (fetchError) {
                             console.error('Erro ao buscar total:', fetchError);
                             showFallbackCounter();
                         }
                     }, 800); // Aguarda 0.8 segundos antes de buscar o total
-                    
+
                 } catch (error) {
                     console.error('Erro ao registrar visita:', error);
                     showFallbackCounter();
                 }
             }
-            
+
             // Fallback: contador local caso o Google Script falhe
             function showFallbackCounter() {
                 console.log('Usando contador local (fallback)...');
-                
+
                 let localData = JSON.parse(localStorage.getItem('ornelasLocalVisits')) || {
                     count: 0,
                     lastDate: null
                 };
-                
+
                 const today = new Date().toDateString();
-                
+
                 // Só conta uma vez por dia no fallback
                 if (localData.lastDate !== today) {
                     localData.count += 1;
                     localData.lastDate = today;
                     localStorage.setItem('ornelasLocalVisits', JSON.stringify(localData));
                 }
-                
+
                 document.getElementById('visitor-count').textContent = formatNumber(localData.count);
                 document.getElementById('today-count').textContent = 'Local';
                 document.getElementById('month-count').textContent = '~';
                 document.querySelector('.counter-label').textContent += ' (modo local)';
             }
-            
+
             // Inicia o contador global
             updateGlobalCounter();
         });
-        
+
         // ============================================
         // CÓDIGO ORIGINAL DO SITE (NAVEGAÇÃO, FORMULÁRIOS, ETC.)
         // ============================================
-        
+
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
@@ -766,16 +794,16 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                
+
                 if (targetElement) {
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
-                    
+
                     // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-menu');
                     if (!mobileMenu.classList.contains('hidden')) {
@@ -800,28 +828,28 @@
             const cidade = document.getElementById('certidao-cidade').value;
             const tipo = document.getElementById('certidao-tipo').value;
             const contato = document.getElementById('certidao-contato').value;
-            
+
             if (!cidade || !tipo || !contato) {
                 alert('Por favor, preencha todos os campos.');
                 return;
             }
-            
+
             // Validate phone number format
             const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
             if (!phoneRegex.test(contato)) {
                 alert('Por favor, insira um número de WhatsApp válido no formato (xx) xxxxx-xxxx');
                 return;
             }
-            
+
             // Format phone number (remove non-digits)
             const formattedPhone = contato.replace(/\D/g, '');
-            
+
             // Construct WhatsApp message - ENVIAR PARA A ADVOGADA
             const whatsappMessage = `Olá! Gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\nMeu contato: ${contato}\n\nValor: R$150,00 + despesas postais`;
-            
+
             // Open WhatsApp da advogada com pre-filled message
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-            
+
             // Reset form
             document.getElementById('certidao-cidade').value = '';
             document.getElementById('certidao-tipo').value = '';
@@ -831,14 +859,14 @@
         // Phone number formatting
         document.getElementById('certidao-contato').addEventListener('input', function(e) {
             let value = this.value.replace(/\D/g, '');
-            
+
             if (value.length > 0) {
                 value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
             }
             if (value.length > 10) {
                 value = value.replace(/(\d{5})(\d)/, '$1-$2');
             }
-            
+
             this.value = value.substring(0, 15);
         });
 
@@ -846,18 +874,18 @@
         window.addEventListener('scroll', function() {
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
-            
+
             let currentSection = '';
-            
+
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                
+
                 if (pageYOffset >= sectionTop - 100) {
                     currentSection = section.getAttribute('id');
                 }
             });
-            
+
             navLinks.forEach(link => {
                 link.classList.remove('active-nav');
                 if (link.getAttribute('href') === `#${currentSection}`) {
@@ -872,12 +900,12 @@
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const message = document.getElementById('message').value;
-            
+
             if (!name || !email || !phone || !message) {
                 alert('Por favor, preencha todos os campos.');
                 return;
             }
-            
+
             const whatsappMessage = `Olá, sou ${name}!\nE-mail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`;
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
         }
