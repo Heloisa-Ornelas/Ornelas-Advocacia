@@ -170,6 +170,15 @@
             height: 120px;
             object-fit: contain;
         }
+
+        /* Efeito de piscar para o ícone do WhatsApp */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .whatsapp-blink {
+            animation: blink 1.2s infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -213,11 +222,32 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero-section text-white py-20 md:py-32">
+    <!-- Hero Section com Contato em destaque -->
+    <section id="inicio" class="hero-section text-white py-20 md:py-28">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-3xl md:text-5xl font-bold mb-6">Compromisso com a Justiça e com Você</h1>
-            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">Soluções jurídicas personalizadas para proteger seus direitos e interesses.</p>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">Compromisso com a Justiça e com Você</h1>
+            <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto">Soluções jurídicas personalizadas para proteger seus direitos e interesses.</p>
+            
+            <!-- Contatos em destaque na hero -->
+            <div class="flex flex-wrap justify-center items-center gap-6 mb-8 bg-white/10 backdrop-blur-sm rounded-xl py-4 px-6 max-w-3xl mx-auto">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-phone-alt text-gold-500"></i>
+                    <span class="text-sm md:text-base">(41) 99978-4622</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fab fa-whatsapp text-green-400 text-xl whatsapp-blink"></i>
+                    <a href="https://wa.me/554199978462" target="_blank" class="text-sm md:text-base hover:underline font-semibold">
+                        (41) 99978-4622
+                    </a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-envelope text-gold-500"></i>
+                    <a href="mailto:ornelasadvogada@outlook.com.br" class="text-sm md:text-base hover:underline">
+                        ornelasadvogada@outlook.com.br
+                    </a>
+                </div>
+            </div>
+
             <a href="#contato" class="bg-gold-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block">
                 Fale Conosco
             </a>
