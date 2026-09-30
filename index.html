@@ -231,6 +231,28 @@
                 max-width: 100%;
             }
         }
+
+        /* Estilos para os botões de redes sociais em destaque */
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .social-btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .social-btn-facebook {
+            background-color: #1877F2;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -306,14 +328,14 @@
         </div>
     </section>
 
-    <!-- About Section - Agora com dois profissionais em coluna (um embaixo do outro) -->
+    <!-- About Section - Dois profissionais em coluna -->
     <section id="quem-somos" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Quem Somos</h2>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Conheça nossa equipe de advogados especializados, prontos para oferecer soluções jurídicas com excelência e comprometimento.</p>
 
             <div class="space-y-12 max-w-5xl mx-auto">
-                <!-- Card da Dra. Heloisa Ornelas (primeira) -->
+                <!-- Card da Dra. Heloisa Ornelas -->
                 <div class="team-card bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="team-row">
                         <div class="team-img">
@@ -328,7 +350,7 @@
                     </div>
                 </div>
 
-                <!-- Card do Dr. Paulo Wilkom de Ornelas (segundo, abaixo) com texto atualizado e sem negrito -->
+                <!-- Card do Dr. Paulo Wilkom de Ornelas -->
                 <div class="team-card bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="team-row">
                         <div class="team-img">
@@ -440,7 +462,6 @@
                                     <option value="Guarapuava">Guarapuava</option>
                                     <option value="Paranaguá">Paranaguá</option>
                                     <option value="São Mateus do Sul">São Mateus do Sul</option>
-                                    <!-- Add more PR cities as needed -->
                                 </select>
                             </div>
 
@@ -528,6 +549,23 @@
                             Enviar Mensagem
                         </button>
                     </form>
+
+                    <!-- NOVO: Bloco "Veja nossos vídeos também" -->
+                    <div class="mt-8 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-6 text-center">
+                        <h3 class="text-2xl font-bold text-purple-800 mb-2">Veja nossos vídeos também!</h3>
+                        <p class="text-gray-700 mb-5">Siga-nos nas redes sociais e acompanhe nossos conteúdos em vídeo.</p>
+
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="https://www.instagram.com/ornelas_helo/" target="_blank" class="social-btn social-btn-instagram">
+                                <i class="fab fa-instagram text-xl"></i>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://www.facebook.com/OrnelasAdvogada" target="_blank" class="social-btn social-btn-facebook">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="lg:w-1/2">
@@ -603,13 +641,13 @@
             <h2 class="text-3xl font-bold text-center mb-12">Nossas Parcerias</h2>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Trabalhamos em conjunto com empresas e organizações comprometidas com a excelência e o desenvolvimento da comunidade.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
                 <!-- Parceria 1: Wike Serviços e Manutenções LTDA -->
                 <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
                     <div class="flex justify-center mb-6">
                         <img src="https://files.catbox.moe/lg3azu.jpeg" alt="Logo Wike Serviços e Manutenções LTDA" class="partnership-logo">
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Wike Serviços e Manutenções LTDA</h3>
+                    <h3 class="text-lg font-bold text-gray-800">Wike Serviços e Manutenções LTDA</h3>
                 </div>
 
                 <!-- Parceria 2: Projeto Estudar e Lutar -->
@@ -617,7 +655,7 @@
                     <div class="flex justify-center mb-6">
                         <img src="https://files.catbox.moe/nxmki8.jpeg" alt="Logo Projeto Estudar e Lutar" class="partnership-logo">
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Projeto Estudar e Lutar</h3>
+                    <h3 class="text-lg font-bold text-gray-800">Projeto Estudar e Lutar</h3>
                 </div>
 
                 <!-- Parceria 3: Borges Industriais -->
@@ -625,7 +663,7 @@
                     <div class="flex justify-center mb-6">
                         <img src="https://files.catbox.moe/0jxkpb.jpeg" alt="Logo Borges Industriais" class="partnership-logo">
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Borges Industriais</h3>
+                    <h3 class="text-lg font-bold text-gray-800">Borges Industriais</h3>
                 </div>
 
                 <!-- Parceria 4: Rakel Lima beleza e estética -->
@@ -633,7 +671,15 @@
                     <div class="flex justify-center mb-6">
                         <img src="https://files.catbox.moe/ne57wb.jpeg" alt="Logo Rakel Lima beleza e estética" class="partnership-logo">
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Rakel Lima<br>beleza e estética</h3>
+                    <h3 class="text-lg font-bold text-gray-800">Rakel Lima<br>beleza e estética</h3>
+                </div>
+
+                <!-- NOVA Parceria 5: Rádio Top Mix -->
+                <div class="partnership-card bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
+                    <div class="flex justify-center mb-6">
+                        <img src="https://files.catbox.moe/pw9zm1.png" alt="Logo Rádio Top Mix" class="partnership-logo">
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800">Rádio Top Mix</h3>
                 </div>
             </div>
 
@@ -660,15 +706,16 @@
                     </div>
                     <p class="text-gray-400 mb-4">Escritório especializado em diversas áreas do direito, oferecendo soluções jurídicas personalizadas com ética e comprometimento.</p>
 
-                    <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/OrnelasAdvogada" target="_blank" class="text-gray-400 hover:text-gold-500 transition duration-300">
-                            <i class="fab fa-facebook-f text-xl"></i>
+                    <!-- Redes sociais em destaque -->
+                    <h4 class="text-md font-semibold mb-3 text-gold-500">Siga-nos e veja nossos vídeos:</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://www.instagram.com/ornelas_helo/" target="_blank" class="social-btn social-btn-instagram text-sm py-2 px-4">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
                         </a>
-                        <a href="https://www.instagram.com/ornelas_helo/" target="_blank" class="text-gray-400 hover:text-gold-500 transition duration-300">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/heloisa-ornelas-7a3041141/" target="_blank" class="text-gray-400 hover:text-gold-500 transition duration-300">
-                            <i class="fab fa-linkedin-in text-xl"></i>
+                        <a href="https://www.facebook.com/OrnelasAdvogada" target="_blank" class="social-btn social-btn-facebook text-sm py-2 px-4">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
                         </a>
                     </div>
                 </div>
@@ -731,23 +778,18 @@
         // CONTADOR GLOBAL COM SUA URL DO GOOGLE SCRIPT
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // SUA URL DO APPS SCRIPT (JÁ INSERIDA)
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4eNvK05iVeN84uXVzTow4E_keKkUXGCkhJp7RYvAt4RnvWLd6i-9v8vWZhMefHwiO_Q/exec';
 
             console.log('Iniciando contador global... URL:', GOOGLE_SCRIPT_URL);
 
-            // Função para formatar números (ex: 1500 → 1.500)
             function formatNumber(num) {
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
 
-            // Função principal: registra visita e atualiza contador
             async function updateGlobalCounter() {
                 try {
                     console.log('1. Registrando nova visita...');
 
-                    // Tenta registrar a visita (chamada 1)
-                    // O modo 'no-cors' é necessário para o Google Apps Script
                     await fetch(GOOGLE_SCRIPT_URL + '?action=add', {
                         method: 'GET',
                         mode: 'no-cors'
@@ -755,10 +797,8 @@
 
                     console.log('Visita registrada. Buscando total atual...');
 
-                    // Aguarda um pouco para o servidor processar
                     setTimeout(async () => {
                         try {
-                            // Busca o total atualizado (chamada 2)
                             const response = await fetch(GOOGLE_SCRIPT_URL + '?action=get');
 
                             if (!response.ok) {
@@ -770,7 +810,6 @@
 
                             console.log('Total recebido do servidor:', total);
 
-                            // Atualiza os elementos na página
                             document.getElementById('visitor-count').textContent = formatNumber(total);
                             document.getElementById('today-count').textContent = formatNumber(total);
                             document.getElementById('month-count').textContent = '✓';
@@ -779,7 +818,7 @@
                             console.error('Erro ao buscar total:', fetchError);
                             showFallbackCounter();
                         }
-                    }, 800); // Aguarda 0.8 segundos antes de buscar o total
+                    }, 800);
 
                 } catch (error) {
                     console.error('Erro ao registrar visita:', error);
@@ -787,7 +826,6 @@
                 }
             }
 
-            // Fallback: contador local caso o Google Script falhe
             function showFallbackCounter() {
                 console.log('Usando contador local (fallback)...');
 
@@ -798,7 +836,6 @@
 
                 const today = new Date().toDateString();
 
-                // Só conta uma vez por dia no fallback
                 if (localData.lastDate !== today) {
                     localData.count += 1;
                     localData.lastDate = today;
@@ -811,7 +848,6 @@
                 document.querySelector('.counter-label').textContent += ' (modo local)';
             }
 
-            // Inicia o contador global
             updateGlobalCounter();
         });
 
@@ -819,13 +855,11 @@
         // CÓDIGO ORIGINAL DO SITE (NAVEGAÇÃO, FORMULÁRIOS, ETC.)
         // ============================================
 
-        // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
 
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -839,7 +873,6 @@
                         behavior: 'smooth'
                     });
 
-                    // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-menu');
                     if (!mobileMenu.classList.contains('hidden')) {
                         mobileMenu.classList.add('hidden');
@@ -848,7 +881,6 @@
             });
         });
 
-        // Show/hide back to top button
         window.addEventListener('scroll', function() {
             const backToTopButton = document.querySelector('.back-to-top');
             if (window.pageYOffset > 300) {
@@ -858,7 +890,6 @@
             }
         });
 
-        // Certidão form submission
         document.getElementById('enviar-certidao').addEventListener('click', function() {
             const cidade = document.getElementById('certidao-cidade').value;
             const tipo = document.getElementById('certidao-tipo').value;
@@ -869,29 +900,23 @@
                 return;
             }
 
-            // Validate phone number format
             const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
             if (!phoneRegex.test(contato)) {
                 alert('Por favor, insira um número de WhatsApp válido no formato (xx) xxxxx-xxxx');
                 return;
             }
 
-            // Format phone number (remove non-digits)
             const formattedPhone = contato.replace(/\D/g, '');
 
-            // Construct WhatsApp message - ENVIAR PARA A ADVOGADA
             const whatsappMessage = `Olá! Gostaria de solicitar uma certidão!\n\nCidade: ${cidade}\nTipo: ${tipo}\nMeu contato: ${contato}\n\nValor: R$150,00 + despesas postais`;
 
-            // Open WhatsApp da advogada com pre-filled message
             window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
 
-            // Reset form
             document.getElementById('certidao-cidade').value = '';
             document.getElementById('certidao-tipo').value = '';
             document.getElementById('certidao-contato').value = '';
         });
 
-        // Phone number formatting
         document.getElementById('certidao-contato').addEventListener('input', function(e) {
             let value = this.value.replace(/\D/g, '');
 
@@ -905,7 +930,6 @@
             this.value = value.substring(0, 15);
         });
 
-        // Update active nav link on scroll
         window.addEventListener('scroll', function() {
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -929,7 +953,6 @@
             });
         });
 
-        // WhatsApp message function
         function sendWhatsAppMessage() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -942,7 +965,7 @@
             }
 
             const whatsappMessage = `Olá, sou ${name}!\nE-mail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`;
-            window.open(`https://wa.me/5541999784622?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+            window.open(`https://wa.me/554199978462?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
         }
     </script>
 </body>
